@@ -8,10 +8,10 @@ A reference implementation showing how to build a comprehensive data dashboard i
 
 ## Live Demo Components
 
-| Component | Description |
-|-----------|-------------|
-| `feeScheduleOld` | **Before** — Legacy card-based layout (what you're replacing) |
-| `feeScheduleDashboard` | **After** — Modern multi-view dashboard with all features |
+| Component | Description | Demo |
+|-----------|-------------|-------------|
+| `feeScheduleOld` | **Before** — Legacy card-based layout (what you're replacing) | https://youtu.be/-zUFPonprJw |
+| `feeScheduleDashboard` | **After** — Modern multi-view dashboard with all features | https://youtu.be/7dVFrCqrmFA |
 
 Both use hardcoded sample data — no Apex or custom objects needed. Deploy to any org for instant visual comparison.
 
