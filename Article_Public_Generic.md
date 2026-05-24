@@ -10,12 +10,12 @@ A regional health insurance payer manages provider network agreements with 50+ h
 
 **Pain points:**
 1. **No consolidated view** — The existing UI was a card-based low-code configurator that showed rates one category at a time (Inpatient, Outpatient, Professional Services). Users had to scroll through cards and click "Load More" to see all rates. No way to compare across hospitals.
-2. **No change visibility** — When agreements are renewed annually, rate renegotiations produce new rates, changed rates, and terminated service codes. The old UI showed all cards identically — no visual indication of what changed vs. what stayed the same.
-3. **No cross-dimensional analysis** — Users couldn't see a Hospital × Service Code matrix to compare rates across the network. Each card was isolated.
+2. **Limited change analysis** — The old UI showed changed/deleted/new tags on individual cards, but you had to scroll through the entire card grid to find them. No way to filter by status, no summary of "what changed this renewal cycle" at a glance.
+3. **No cross-dimensional analysis** — Users couldn't see a Hospital × Service Code matrix to compare rates across the network. Each card was isolated in its category group.
 4. **Slow edit workflow** — Changing a rate required navigating back to the Rate Builder (separate screen), finding the right record, editing, and returning.
-5. **No bulk operations** — Terminating or reinstating service codes required one-by-one navigation.
+5. **No bulk operations** — Terminating or reinstating service codes required one-by-one navigation through the card layout.
 
-**Business impact:** Network operations managers spent 20-30 minutes per agreement review. Rate errors during renewals went undetected until claims processing flagged them — sometimes months later.
+**Business impact:** Network operations managers spent 20-30 minutes per agreement review scanning cards to find changes. Rate errors during renewals went undetected until claims processing flagged them.
 
 ---
 
