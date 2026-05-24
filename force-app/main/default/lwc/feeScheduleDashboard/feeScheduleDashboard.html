@@ -1,0 +1,196 @@
+<template>
+    <lightning-card title="Fee Schedule Dashboard" icon-name="utility:moneybag">
+        <p slot="actions" class="slds-text-body_small slds-text-color_weak">
+            {totalRecords} rates &bull; Provider Network Agreement #4521 &bull; 2026 Renewal
+        </p>
+
+        <div class="slds-p-horizontal_small slds-p-top_small slds-p-bottom_xx-small">
+            <lightning-input
+                type="search"
+                label="Search"
+                placeholder="Search rates... (e.g. Mercy, DRG 470, Specialist, $450)"
+                value={globalSearch}
+                onchange={handleGlobalSearch}
+                variant="label-hidden"
+            ></lightning-input>
+        </div>
+
+        <div class="slds-grid slds-grid_vertical-align-center slds-p-horizontal_small slds-p-bottom_xx-small legend-bar">
+            <span class="legend-item"><span class="legend-dot legend-new"></span>New</span>
+            <span class="legend-item"><span class="legend-dot legend-changed"></span>Changed</span>
+            <span class="legend-item"><span class="legend-dot legend-deleted"></span>Deleted</span>
+            <span class="legend-item"><span class="legend-dot legend-unchanged"></span>Unchanged</span>
+        </div>
+
+        <template lwc:if={hasData}>
+            <lightning-tabset>
+                <!-- FLAT TABLE -->
+                <lightning-tab label="Flat Table" icon-name="utility:filterList">
+                    <div class="slds-p-around_small">
+                        <div class="slds-grid slds-gutters slds-m-bottom_small">
+                            <div class="slds-col slds-size_1-of-3">
+                                <lightning-combobox label="Category" value={filterCategory} options={categoryOptions} onchange={handleCategoryFilter} placeholder="All Categories"></lightning-combobox>
+                            </div>
+                        </div>
+                        <p class="slds-text-body_small slds-text-color_weak slds-m-bottom_x-small">
+                            Showing {filteredCount} of {totalRecords} rates
+                        </p>
+                        <lightning-datatable
+                            key-field="id"
+                            data={filteredRows}
+                            columns={flatColumns}
+                            sorted-by={sortedBy}
+                            sorted-direction={sortedDirection}
+                            onsort={handleSort}
+                            onsave={handleSave}
+                            draft-values={draftValues}
+                            show-row-number-column
+                        ></lightning-datatable>
+                    </div>
+                </lightning-tab>
+
+                <!-- MATRIX VIEW -->
+                <lightning-tab label="Matrix View" icon-name="utility:matrix">
+                    <div class="slds-p-around_small">
+                        <template for:each={matrixGroups} for:item="group">
+                            <div key={group.category} class="slds-m-bottom_medium">
+                                <h2 class="slds-text-heading_medium slds-m-bottom_x-small">{group.category}
+                                    <span class="slds-text-body_small slds-text-color_weak"> ({group.count})</span>
+                                </h2>
+                                <div class="matrix-scroll">
+                                    <table class="slds-table slds-table_cell-buffer slds-table_bordered compact-table matrix-table">
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th scope="col" class="sticky-col"><div class="slds-truncate">Hospital (Tier)</div></th>
+                                                <template for:each={group.columns} for:item="col">
+                                                    <th key={col} scope="col"><div class="slds-truncate">{col}</div></th>
+                                                </template>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={group.rows} for:item="row">
+                                                <tr key={row.facility}>
+                                                    <td class="sticky-col"><div class="slds-truncate">{row.facility}</div></td>
+                                                    <template for:each={row.cells} for:item="cell">
+                                                        <td key={cell.key} class={cell.cellClass}>
+                                                            <div class="slds-truncate">{cell.displayRate}<template lwc:if={cell.displayOldRate}><span class="old-rate-text"> ({cell.displayOldRate})</span></template></div>
+                                                            <template lwc:if={cell.unit}><div class="cell-sub-text">{cell.unit}</div></template>
+                                                        </td>
+                                                    </template>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </lightning-tab>
+
+                <!-- BY HOSPITAL -->
+                <lightning-tab label="By Hospital" icon-name="utility:company">
+                    <div class="slds-p-around_small">
+                        <lightning-accordion allow-multiple-sections-open>
+                            <template for:each={facilityGroups} for:item="fGroup">
+                                <lightning-accordion-section key={fGroup.facility} label={fGroup.label}>
+                                    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped compact-table">
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th scope="col"><div class="slds-truncate">Category</div></th>
+                                                <th scope="col"><div class="slds-truncate">Service Code</div></th>
+                                                <th scope="col"><div class="slds-truncate">Rate</div></th>
+                                                <th scope="col"><div class="slds-truncate">Unit</div></th>
+                                                <th scope="col"><div class="slds-truncate">Tier</div></th>
+                                                <th scope="col"><div class="slds-truncate">Status</div></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={fGroup.rates} for:item="row">
+                                                <tr key={row.id}>
+                                                    <td><div class="slds-truncate">{row.category}</div></td>
+                                                    <td><div class="slds-truncate">{row.serviceCode}</div></td>
+                                                    <td><div class="slds-truncate">{row.formattedRate}</div></td>
+                                                    <td><div class="slds-truncate">{row.unit}</div></td>
+                                                    <td><div class="slds-truncate">{row.tier}</div></td>
+                                                    <td><span class={row.badgeClass}>{row.status}</span></td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </lightning-accordion-section>
+                            </template>
+                        </lightning-accordion>
+                    </div>
+                </lightning-tab>
+
+                <!-- BY STATUS -->
+                <lightning-tab label="By Status" icon-name="utility:change_record_type">
+                    <div class="slds-p-around_small">
+                        <template for:each={statusGroups} for:item="sGroup">
+                            <div key={sGroup.status} class="slds-m-bottom_medium">
+                                <div class="slds-grid slds-grid_align-spread slds-p-bottom_xx-small status-section-header">
+                                    <h2 class="slds-text-heading_medium">
+                                        <span class={sGroup.badgeClass}>{sGroup.status}</span>
+                                        <span class="slds-text-body_small slds-text-color_weak slds-m-left_x-small">({sGroup.count})</span>
+                                    </h2>
+                                </div>
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped compact-table">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th scope="col"><div class="slds-truncate">Category</div></th>
+                                            <th scope="col"><div class="slds-truncate">Service Code</div></th>
+                                            <th scope="col"><div class="slds-truncate">Hospital</div></th>
+                                            <th scope="col"><div class="slds-truncate">Rate</div></th>
+                                            <th scope="col"><div class="slds-truncate">Unit</div></th>
+                                            <th scope="col"><div class="slds-truncate">Tier</div></th>
+                                            <template lwc:if={sGroup.showOldRate}>
+                                                <th scope="col"><div class="slds-truncate">Previous Rate</div></th>
+                                            </template>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={sGroup.rates} for:item="row">
+                                            <tr key={row.id}>
+                                                <td><div class="slds-truncate">{row.category}</div></td>
+                                                <td><div class="slds-truncate">{row.serviceCode}</div></td>
+                                                <td><div class="slds-truncate">{row.facility}</div></td>
+                                                <td><div class="slds-truncate">{row.formattedRate}</div></td>
+                                                <td><div class="slds-truncate">{row.unit}</div></td>
+                                                <td><div class="slds-truncate">{row.tier}</div></td>
+                                                <template lwc:if={sGroup.showOldRate}>
+                                                    <td><div class="slds-truncate">{row.formattedOldRate}</div></td>
+                                                </template>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </template>
+                    </div>
+                </lightning-tab>
+            </lightning-tabset>
+        </template>
+
+        <!-- Detail Popover -->
+        <template lwc:if={hasDetailRow}>
+            <div class="detail-overlay" onclick={handleCloseDetail}>
+                <section class="slds-popover slds-popover_large detail-popover" onclick={handlePopupClick}>
+                    <div class="slds-popover__header popover-header">
+                        <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                            <h2 class="slds-text-heading_small">{detailTitle}</h2>
+                            <lightning-button-icon icon-name="utility:close" alternative-text="Close" onclick={handleCloseDetail} variant="bare" size="small"></lightning-button-icon>
+                        </div>
+                    </div>
+                    <div class="slds-popover__body">
+                        <dl class="slds-list_horizontal slds-wrap">
+                            <template for:each={detailFields} for:item="df">
+                                <dt key={df.key} class="slds-item_label slds-truncate detail-dt">{df.label}</dt>
+                                <dd key={df.key} class="slds-item_detail slds-truncate detail-dd">{df.value}</dd>
+                            </template>
+                        </dl>
+                    </div>
+                </section>
+            </div>
+        </template>
+    </lightning-card>
+</template>

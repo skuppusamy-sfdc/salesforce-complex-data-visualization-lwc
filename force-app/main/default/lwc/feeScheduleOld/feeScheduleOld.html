@@ -1,0 +1,54 @@
+<template>
+    <lightning-card title="Fee Schedule Summary" icon-name="utility:moneybag">
+        <p slot="actions" class="slds-text-body_small slds-text-color_weak">Legacy Card View — Provider Network Agreement #4521</p>
+        <div class="slds-p-around_medium">
+            <template for:each={categories} for:item="cat">
+                <div key={cat.name} class="category-section">
+                    <div class="category-header">
+                        <h2 class="slds-text-heading_medium">{cat.name}</h2>
+                        <lightning-button-icon icon-name="utility:delete" alternative-text="Delete category" variant="bare" class="cat-delete"></lightning-button-icon>
+                    </div>
+                    <template for:each={cat.groups} for:item="group">
+                        <div key={group.label} class="group-section">
+                            <h3 class="slds-text-heading_small slds-m-bottom_x-small group-label">{group.label}</h3>
+                            <div class="card-grid">
+                                <template for:each={group.rates} for:item="rate">
+                                    <div key={rate.id} class={rate.cardClass}>
+                                        <div class="card-header">
+                                            <span class="card-title">{rate.facility} | {rate.type}</span>
+                                            <div class="card-actions">
+                                                <template lwc:if={rate.isDeleted}>
+                                                    <span class="status-tag tag-deleted">DELETED</span>
+                                                </template>
+                                                <template lwc:if={rate.isChanged}>
+                                                    <span class="status-tag tag-changed">CHANGED</span>
+                                                </template>
+                                                <template lwc:if={rate.isNew}>
+                                                    <span class="status-tag tag-new">NEW</span>
+                                                </template>
+                                                <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" variant="bare" size="small" class="card-delete"></lightning-button-icon>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <template lwc:if={rate.isDeleted}>
+                                                <span class="rate-deleted">{rate.formattedRate}</span>
+                                            </template>
+                                            <template lwc:elseif={rate.isChanged}>
+                                                <span class="rate-current">{rate.formattedRate}</span>
+                                                <span class="rate-old">was {rate.formattedOldRate}</span>
+                                            </template>
+                                            <template lwc:else>
+                                                <span class="card-rate">{rate.formattedRate}</span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    <a class="load-more">Load More..</a>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,143 @@
+.category-section {
+    background-color: #f4f4f4;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #d8dde6;
+}
+
+.group-section {
+    margin-bottom: 1rem;
+}
+
+.group-label {
+    font-weight: 600;
+    color: #3e3e3c;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.5rem;
+}
+
+.rate-card {
+    background-color: white;
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border-left: 4px solid transparent;
+}
+
+.card-changed {
+    border-left-color: #e87400;
+    background-color: #fff8f0;
+}
+
+.card-deleted {
+    border-left-color: #c23934;
+    background-color: #fef1f1;
+    opacity: 0.75;
+}
+
+.card-new {
+    border-left-color: #2e844a;
+    background-color: #f0faf3;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 0.8rem;
+    color: #3e3e3c;
+    font-weight: 500;
+}
+
+.card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.card-body {
+    margin-top: 0.15rem;
+}
+
+.card-rate {
+    font-size: 0.85rem;
+    color: #706e6b;
+}
+
+.rate-current {
+    font-size: 0.85rem;
+    color: #e87400;
+    font-weight: 600;
+}
+
+.rate-old {
+    font-size: 0.7rem;
+    color: #706e6b;
+    margin-left: 0.5rem;
+    text-decoration: line-through;
+}
+
+.rate-deleted {
+    font-size: 0.85rem;
+    color: #c23934;
+    text-decoration: line-through;
+}
+
+.status-tag {
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.03rem;
+}
+
+.tag-changed {
+    background-color: #e87400;
+    color: white;
+}
+
+.tag-deleted {
+    background-color: #c23934;
+    color: white;
+}
+
+.tag-new {
+    background-color: #2e844a;
+    color: white;
+}
+
+.card-delete {
+    color: #0070d2;
+}
+
+.cat-delete {
+    color: #0070d2;
+}
+
+.load-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #0070d2;
+    cursor: pointer;
+    border: 1px solid #0070d2;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+}
