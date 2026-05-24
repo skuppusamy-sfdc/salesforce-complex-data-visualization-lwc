@@ -1,6 +1,6 @@
-# Building a Multi-View Fee Schedule Dashboard in 4 Hours with AI Pair-Programming
+# Replacing a Legacy Low-Code Configurator with a Modern LWC — in One Session
 
-*How one Salesforce developer used conversational AI to replace a legacy rate configurator with a modern, interactive LWC — without wireframes, PRDs, or a sprint plan.*
+*How one Salesforce developer used AI pair-programming to convert a card-based OmniScript rate configurator into an interactive, multi-view LWC with inline editing, matrix visualization, and bulk operations — in 4 hours instead of 8 weeks.*
 
 ---
 
